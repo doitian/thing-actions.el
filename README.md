@@ -38,9 +38,9 @@ Type any key other than keys listed above and ones in `things-actions-alist` qui
 
 Suppose that `things-actions-mark-thing` is binded on <kbd>M-SPC</kbd>.
 
-<kbd>M-SPC w w w</kbd> - mark three words, <kbd>M-3 M-SPC w</kbd> and <kbd>M-SPC M-3 w</kbd> also work.
-<kbd>M-SPC M-f p</kbd> - move forward a paragraph.
-<kbd>M-SPC M-a d</kbd> - move to the beginning of the defun around cursor.
+-   <kbd>M-SPC w w w</kbd> - mark three words, <kbd>M-3 M-SPC w</kbd> and <kbd>M-SPC M-3 w</kbd> also work.
+-   <kbd>M-SPC M-f p</kbd> - move forward a paragraph.
+-   <kbd>M-SPC M-a d</kbd> - move to the beginning of the defun around cursor.
 
 ## License ##
 
