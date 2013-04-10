@@ -69,7 +69,7 @@
 
 ;;; Code:
 
-(require 'thing-cmds)
+;;(require 'thing-cmds)
 
 (defvar thing-actions--thing-cmd nil "Remember current thing command")
 (defvar thing-actions--thing nil "Remember current thing")
@@ -78,20 +78,20 @@
   "Merge `thing-actions-map' and thing-actions-alist")
 
 (defun thing-actions--update-map (&optional sym val)
-  (setq thing-actions-alist (or val thing-actions-alist))
   "Update thing-actions-map from thing-actions-alist"
+  (setq thing-actions-alist (or val thing-actions-alist))
   (let ((map (copy-keymap thing-actions-map)))
     (mapc (lambda (key-thing-pair)
             (define-key
               map
-              (kbd (car key-thing-pair))
+              (read-kbd-macro (car key-thing-pair))
               (eval `(defun ,(intern (concat "thing-actions-apply-on-" (symbol-name (cdr key-thing-pair))))  ()
                        ,(format "Apply current active thing cmd on %s" (symbol-name (cdr key-thing-pair)))
                        (interactive)
                        (setq thing-actions--thing (quote ,(cdr key-thing-pair)))
                        (call-interactively 'thing-actions--command)))))
           thing-actions-alist)
-    (define-key map (kbd "C-g") 'thing-actions--done)
+    (define-key map "\C-g" 'thing-actions--done)
     (define-key map [t] 'thing-actions--pass-through)
     (setq thing-actions--overriding-local-map map)))
 
@@ -99,12 +99,12 @@
 
 (defcustom thing-actions-map
   (let ((map (make-sparse-keymap)))
-    (define-key map (kbd "M-SPC") 'thing-actions-mark-thing)
-    (define-key map (kbd "M-s") 'thing-actions-thing-region)
-    (define-key map (kbd "M-f") 'thing-actions-forward-thing)
-    (define-key map (kbd "M-b") 'thing-actions-backward-thing)
-    (define-key map (kbd "M-a") 'thing-actions-beginning-of-thing)
-    (define-key map (kbd "M-e") 'thing-actions-end-of-thing)
+    (define-key map (read-kbd-macro "M-SPC") 'thing-actions-mark-thing)
+    (define-key map (read-kbd-macro "M-s") 'thing-actions-thing-region)
+    (define-key map (read-kbd-macro "M-f") 'thing-actions-forward-thing)
+    (define-key map (read-kbd-macro "M-b") 'thing-actions-backward-thing)
+    (define-key map (read-kbd-macro "M-a") 'thing-actions-beginning-of-thing)
+    (define-key map (read-kbd-macro "M-e") 'thing-actions-end-of-thing)
     map)
   "User customized bindings"
   :group 'thing-actions)
@@ -160,7 +160,7 @@
 (defun thing-actions--help ()
   (interactive)
   (message (mapconcat (lambda (pair)
-                        (format "%s:%s" (kbd (car pair)) (symbol-name (cdr pair))))
+                        (format "%s:%s" (read-kbd-macro (car pair)) (symbol-name (cdr pair))))
                       thing-actions-alist " ")))
 
 (defun thing-actions--start (thing-cmd)
