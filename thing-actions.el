@@ -69,7 +69,7 @@
 
 ;;; Code:
 
-;;(require 'thing-cmds)
+(require 'thing-cmds)
 
 (defvar thing-actions--thing-cmd nil "Remember current thing command")
 (defvar thing-actions--thing nil "Remember current thing")
@@ -91,7 +91,6 @@
                        (setq thing-actions--thing (quote ,(cdr key-thing-pair)))
                        (call-interactively 'thing-actions--command)))))
           thing-actions-alist)
-    (define-key map "\C-g" 'thing-actions--done)
     (define-key map [t] 'thing-actions--pass-through)
     (setq thing-actions--overriding-local-map map)))
 
@@ -172,6 +171,7 @@
   (setq overriding-local-map nil))
 
 (defun thing-actions--mark-thing-command (thing arg)
+  (setq thgcmd-last-thing-type thing)
   (mark-thing thing arg t))
 
 ;;;###autoload
