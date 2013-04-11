@@ -79,7 +79,7 @@
 
 (defun thing-actions--update-map (&optional sym val)
   "Update thing-actions-map from thing-actions-alist"
-  (setq thing-actions-alist (or val thing-actions-alist))
+  (when sym (set sym val))
   (let ((map (copy-keymap thing-actions-map)))
     (mapc (lambda (key-thing-pair)
             (define-key
@@ -106,7 +106,8 @@
     (define-key map (read-kbd-macro "M-e") 'thing-actions-end-of-thing)
     map)
   "User customized bindings"
-  :group 'thing-actions)
+  :group 'thing-actions
+  :set 'thing-actions--update-map)
 
 (defcustom thing-actions-alist
   '(("w" . word)
