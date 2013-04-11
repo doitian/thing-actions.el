@@ -104,6 +104,9 @@
     (define-key map (read-kbd-macro "M-b") 'thing-actions-backward-thing)
     (define-key map (read-kbd-macro "M-a") 'thing-actions-beginning-of-thing)
     (define-key map (read-kbd-macro "M-e") 'thing-actions-end-of-thing)
+    (define-key map (read-kbd-macro "TAB") 'exchange-point-and-mark)
+    (define-key map (read-kbd-macro "<tab>") 'exchange-point-and-mark)
+    (define-key map "?" 'thing-actions--help)
     map)
   "User customized bindings"
   :group 'thing-actions
