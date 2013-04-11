@@ -141,8 +141,9 @@
                  thing-actions--thing n)
       (funcall thing-actions--thing-cmd
                thing-actions--thing))
-    (setq this-command 'thing-actions--command
-          mc--this-command 'thing-actions--command)))
+    (setq this-command 'thing-actions--command)
+    (when (and (boundp 'multiple-cursors-mode) multiple-cursors-mode)
+      (setq mc--this-command 'thing-actions--command))))
 
 (defun thing-actions--pass-through ()
   "Finish thing-actions and invoke the corresponding command"
@@ -156,8 +157,9 @@
          (command (and keys (key-binding keys))))
     (when (commandp command)
       (setq this-command command
-            this-original-command command
-            mc--this-command command)
+            this-original-command command)
+      (when (and (boundp 'multiple-cursors-mode) multiple-cursors-mode)
+        (setq mc--this-command command))
       (call-interactively command))))
 
 (defun thing-actions--help ()
