@@ -80,19 +80,20 @@
 (defun thing-actions--update-map (&optional sym val)
   "Update thing-actions-map from thing-actions-alist"
   (when sym (set sym val))
-  (let ((map (copy-keymap thing-actions-map)))
-    (mapc (lambda (key-thing-pair)
-            (define-key
-              map
-              (read-kbd-macro (car key-thing-pair))
-              (eval `(defun ,(intern (concat "thing-actions-apply-on-" (symbol-name (cdr key-thing-pair))))  ()
-                       ,(format "Apply current active thing cmd on %s" (symbol-name (cdr key-thing-pair)))
-                       (interactive)
-                       (setq thing-actions--thing (quote ,(cdr key-thing-pair)))
-                       (call-interactively 'thing-actions--command)))))
-          thing-actions-alist)
-    (define-key map [t] 'thing-actions--pass-through)
-    (setq thing-actions--overriding-local-map map)))
+  (when (boundp 'thing-actions-alist)
+    (let ((map (copy-keymap thing-actions-map)))
+      (mapc (lambda (key-thing-pair)
+              (define-key
+                map
+                (read-kbd-macro (car key-thing-pair))
+                (eval `(defun ,(intern (concat "thing-actions-apply-on-" (symbol-name (cdr key-thing-pair))))  ()
+                         ,(format "Apply current active thing cmd on %s" (symbol-name (cdr key-thing-pair)))
+                         (interactive)
+                         (setq thing-actions--thing (quote ,(cdr key-thing-pair)))
+                         (call-interactively 'thing-actions--command)))))
+            thing-actions-alist)
+      (define-key map [t] 'thing-actions--pass-through)
+      (setq thing-actions--overriding-local-map map))))
 
 (defgroup thing-actions nil "Actions to manipulate things")
 
